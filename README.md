@@ -8,4 +8,10 @@ Implement Aheadworks Blog extension in Vue Storefront!
 ![Magebit](https://magebit.com/img/magebit-logo-2x.png)
 
 
+## Authors
+
+* **Emīls Malovka** (emils.malovka@magebit.com)
+* **Kristofers Ozoliņš** (kristofers.ozolins@magebit.com)
+
+
 
