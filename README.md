@@ -17,7 +17,8 @@ Implement Aheadworks Blog extension in Vue Storefront! Comes with a sample layou
 
 #### Magento 2 Indexer module
 To implement this module in your project, first you'll need to install our [Aheadworks Blog Indexer](https://github.com/magebitcom/vsf-aheadworks-blog-indexer) module for Magento 2 / VSBridge Indexer:
-  * `composer require magebit/aheadworks-blog-indexer`
+  * Via composer - `composer require magebit/aheadworks-blog-indexer`
+  * For manual installation check the README here: https://github.com/magebitcom/vsf-aheadworks-blog-indexer
   
 #### Vue Storefront module
   * Clone this repository inside `src/modules/`
