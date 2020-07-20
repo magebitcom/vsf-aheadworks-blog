@@ -80,6 +80,10 @@
             </div>
           </div>
         </div>
+        <script
+          type="application/ld+json"
+          v-html="structuredData"
+        />
       </div>
     </template>
     <template v-else>
@@ -137,6 +141,38 @@ export default {
     },
     publishDate () {
       return moment.unix(this.post.publish_date).format('MM/DD/YY h:mmA')
+    },
+    pageTitle () {
+      const title = [this.post.title, this.$t('Blog')]
+      return title.join(' - ')
+    },
+    structuredData () {
+      return `{
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        'mainEntityOfPage': {
+          '@type': 'WebPage',
+          '@id': '${this.$route.fullPath}'
+        },
+        'headline': '${this.post.title}',
+        'image': [
+          '${this.post.featured_image_file}'
+        ],
+        'datePublished': '${moment.unix(this.post.publish_date).format('YYYY-MM-DD H:mm')}',
+        'dateModified': '${moment.unix(this.post.publish_date).format('YYYY-MM-DD H:mm')}',
+        'author': {
+          '@type': 'Person',
+          'name': '${this.post.author_name}'
+        },
+        'publisher': {
+          '@type': 'Organization',
+          'name': 'Vue Storefront',
+          'logo': {
+            '@type': 'ImageObject',
+            'url': '/assets/logo.svg'
+          }
+        }
+      }`
     }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
@@ -152,6 +188,25 @@ export default {
       })
     } else {
       next()
+    }
+  },
+  metaInfo () {
+    const metaData = [
+      {
+        vmid: 'description',
+        name: 'description',
+        content: this.post.meta_description
+      },
+      {
+        name: 'title',
+        content: this.post.meta_title
+      }
+    ];
+
+    return {
+      title: htmlDecode(this.pageTitle || this.$route.meta.title),
+      meta: metaData,
+      link: [{ rel: 'canonical', href: this.$route.path }]
     }
   },
   methods: {
