@@ -85,7 +85,7 @@ To implement this module in your project, first you'll need to install our [Ahea
         },
       }
     ```
-### Preview
+## Preview
 ![Category page](https://i.imgur.com/pxyoGyy.png)
 ![Category page](https://i.imgur.com/cEh6juA.png)
 ![Post page](https://i.imgur.com/CtWYApJ.png)
