@@ -94,6 +94,5 @@ To implement this module in your project, first you'll need to install our [Ahea
 
 ![Magebit](https://magebit.com/img/magebit-logo-2x.png)
 
-
-
+*Have questions or need help? Contact us at info@magebit.com*
 
