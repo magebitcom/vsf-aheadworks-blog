@@ -9,7 +9,7 @@ Implement Aheadworks Blog extension in Vue Storefront! Comes with a sample layou
 * [Example preview](#preview)
   
 ### Prerequisites
-* Magento 2 with [VSBridge Indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and ]Aheadworks Blog](https://ecommerce.aheadworks.com/magento-2-extensions/blog) extension
+* Magento 2 with [VSBridge Indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [Aheadworks Blog](https://ecommerce.aheadworks.com/magento-2-extensions/blog) extension
 * **Vue Storefront v1.12** or greater
 * Vue Storefront default theme, but can be implemented with capybara, by editing our blog components.
   
