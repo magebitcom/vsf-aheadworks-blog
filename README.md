@@ -47,6 +47,7 @@ To implement this module in your project, first you'll need to install our [Ahea
     // ...
     ```
   
+  * Update `publisher` field inside `src/modules/aheadworks-blog/pages/BlogPost.vue structuredData`
   * Everything should be working by now, but you can also add blog entity types to your config:
     ```json
       "entities": {
