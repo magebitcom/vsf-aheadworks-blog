@@ -1,14 +1,10 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { getSearchAdapter } from '@vue-storefront/core/lib/search/adapter/searchAdapterFactory'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { blogModule } from './state'
-export const KEY = 'blog'
-export const STORAGE_KEY = 'blog'
+export const KEY = 'aheadworks-blog'
 
 export const AheadworksBlog: StorefrontModule = function ({ app, store }) {
-  StorageManager.init(STORAGE_KEY)
-
-  store.registerModule('aheadworks-blog', blogModule)
+  store.registerModule(KEY, blogModule)
 
   getSearchAdapter().then((searchAdapter) => {
     searchAdapter.registerEntityType('cms_blog', {
