@@ -7,6 +7,7 @@ Implement Aheadworks Blog extension in Vue Storefront! Comes with a sample layou
   * [Magento 2 Indexer module](#magento-2-indexer-module)
   * [Vue Storefront module](#vue-storefront-module)
 * [Example preview](#preview)
+* [Contributing](#contributing)
   
 ### Prerequisites
 * Magento 2 with [VSBridge Indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [Aheadworks Blog](https://ecommerce.aheadworks.com/magento-2-extensions/blog) extension
@@ -90,6 +91,13 @@ To implement this module in your project, first you'll need to install our [Ahea
 ![Category page](https://i.imgur.com/pxyoGyy.png)
 ![Category page](https://i.imgur.com/cEh6juA.png)
 ![Post page](https://i.imgur.com/CtWYApJ.png)
+
+## Contributing
+Found a bug, have a feature suggestion or just want to help in general?
+Contributions are very welcome! Check out the [list of active issues](https://github.com/magebitcom/vsf-instagram-feed/issues) or submit one yourself.
+
+If you're making a bug report, please include as much details as you can and preferably steps to repreduce the issue.
+When creating Pull Requests, don't for get to list your changes in the [CHANGELOG](/CHANGELOG.md) and [README](/README.md) files.
 
 ---
 
