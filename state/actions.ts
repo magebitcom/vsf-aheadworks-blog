@@ -1,7 +1,6 @@
 import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-import { BlogState, BlogCategorySearchOptions, BlogPost, BlogPostSearchOptions } from '../types'
-import BlogCategory from 'src/modules/blog/types/BlogCategory'
+import { BlogCategory, BlogState, BlogCategorySearchOptions, BlogPost, BlogPostSearchOptions } from '../types'
 import { BlogCategoryService, BlogPostService } from '../data-resolver'
 import { BLOG_ADD_CATEGORY, BLOG_SET_SEARCH_POSTS_STATS, BLOG_SET_CATEGORY_POSTS, BLOG_SET_RECENT_POSTS, BLOG_ADD_CATEGORIES, BLOG_ADD_POST } from './mutation-types'
 
