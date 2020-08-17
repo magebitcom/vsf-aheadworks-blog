@@ -2,8 +2,7 @@ import config from 'config'
 import get from 'lodash-es/get'
 import { SearchQuery } from 'storefront-query-builder'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import BlogCategory from 'src/modules/blog/types/BlogCategory'
-import { BlogCategorySearchOptions, BlogPost } from '../types'
+import { BlogCategorySearchOptions, BlogPost, BlogCategory } from '../types'
 
 const getBlogCategories = async ({
   filters = {},
