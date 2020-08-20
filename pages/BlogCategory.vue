@@ -249,7 +249,7 @@ export default {
       })
     },
     loadMorePosts () {
-      if (this.canLoadMore) return
+      if (!this.canLoadMore) return
       this.$store.dispatch('aheadworks-blog/loadMoreCategoryPosts', this.currentCategory)
     }
   }
