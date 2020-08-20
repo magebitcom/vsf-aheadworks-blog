@@ -28,7 +28,14 @@ const actions: ActionTree<BlogState, RootState> = {
 
     return category
   },
-
+  
+  /**
+   * Load a single blog post
+   *
+   * @param {*} { commit }
+   * @param {BlogPostSearchOptions} postSearchOptions
+   * @returns {Promise<BlogPost>}
+   */
   async loadPost ({ commit }, postSearchOptions: BlogPostSearchOptions): Promise<BlogPost> {
     const { items } = await BlogPostService.getBlogPosts(postSearchOptions)
     const post: BlogPost = items && items.length ? items[0] : null
@@ -45,7 +52,10 @@ const actions: ActionTree<BlogState, RootState> = {
    * @param {{ category: BlogCategory }} searchOptions
    * @returns {Promise<BlogPost[]>}
    */
-  async loadCategoryPosts ({ commit, rootGetters }, category: BlogCategory): Promise<BlogPost[]> {
+  async loadCategoryPosts ({ commit, rootGetters }, {
+    category,
+    pageSize = 10
+  } = {}): Promise<BlogPost[]> {
     const filters = {} as any
 
     if (category) {
@@ -56,7 +66,8 @@ const actions: ActionTree<BlogState, RootState> = {
 
     const { items, response } = await BlogPostService.getBlogPosts({
       filters,
-      sort: currentRoute.query.sort
+      sort: currentRoute.query.sort,
+      size: pageSize
     })
 
     commit(BLOG_SET_SEARCH_POSTS_STATS, {
@@ -66,6 +77,41 @@ const actions: ActionTree<BlogState, RootState> = {
     })
 
     commit(BLOG_SET_CATEGORY_POSTS, items)
+
+    return items
+  },
+
+  /**
+   * Load more posts from category
+   *
+   * @param {*} { commit }
+   * @param {{ category: BlogCategory }} searchOptions
+   * @returns {Promise<BlogPost[]>}
+   */
+  async loadMoreCategoryPosts ({ commit, rootGetters, getters }, category: BlogCategory): Promise<BlogPost[]> {
+    const filters = {} as any
+
+    if (category) {
+      filters.blog_category_ids = { in: String(category.id) }
+    }
+
+    const currentRoute = rootGetters['url/getCurrentRoute']
+    const stats = getters['getSearchStats']
+
+    const { items, response } = await BlogPostService.getBlogPosts({
+      filters,
+      sort: currentRoute.query.sort,
+      start: stats.start + stats.perPage,
+      size: stats.perPage
+    })
+
+    commit(BLOG_SET_SEARCH_POSTS_STATS, {
+      perPage: response.perPage,
+      start: response.start,
+      total: response.total
+    })
+
+    commit(BLOG_ADD_CATEGORIES, items)
 
     return items
   },

@@ -12,7 +12,7 @@ export const blogModule: Module<BlogState, RootState> = {
     categories: [],
     posts: [],
     recent_posts: [],
-    searchPostStats: {}
+    searchPostStats: null
   },
   getters,
   actions,

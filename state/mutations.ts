@@ -32,6 +32,15 @@ const mutations: MutationTree<BlogState> = {
     state.posts = posts || []
   },
 
+  [BLOG_ADD_CATEGORIES] (state, posts: BlogPost[]) {
+    const postIds = state.posts.map(post => post.id)
+    posts.forEach(post => {
+      if (postIds.indexOf(post.id) < 0) {
+        state.posts.push(post)
+      }
+    })
+  },
+
   [BLOG_SET_RECENT_POSTS] (state, posts: BlogPost[]) {
     state.recent_posts = posts || []
   },

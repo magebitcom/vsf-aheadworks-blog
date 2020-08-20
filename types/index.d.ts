@@ -2,7 +2,13 @@ export interface BlogState {
   categories: BlogCategory[],
   posts: BlogPost[],
   recent_posts: BlogPost[],
-  searchPostStats: {}
+  searchPostStats?: SearchPostStats
+}
+
+export interface SearchPostStats {
+  perPage: number,
+  start: number,
+  total: number
 }
 
 export interface BlogCategorySearchOptions {

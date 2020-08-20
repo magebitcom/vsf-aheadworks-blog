@@ -27,7 +27,9 @@ const getters: GetterTree<BlogState, RootState> = {
   },
   getCategoryFromPath: state => (path: string) => {
     return state.categories.find(category => (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_key)
-  }
+  },
+  getSearchStats: state => state.searchPostStats,
+  getTotalPosts: state => state.searchPostStats ? state.searchPostStats.total : 0
 }
 
 export default getters

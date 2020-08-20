@@ -108,6 +108,8 @@ import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import BlogListing from '../components/BlogListing'
 
+const POSTS_PER_PAGE = 10
+
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
     await store.dispatch('aheadworks-blog/loadCategories', {
@@ -118,10 +120,15 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
 
     if (route.params.slug) {
       currentCategory = await store.getters['aheadworks-blog/getCurrentCategory']
-      await store.dispatch('aheadworks-blog/loadCategoryPosts', currentCategory)
+      await store.dispatch('aheadworks-blog/loadCategoryPosts', {
+        category: currentCategory,
+        perPage: POSTS_PER_PAGE
+      })
     } else {
       // Load latest from any category
-      await store.dispatch('aheadworks-blog/loadCategoryPosts')
+      await store.dispatch('aheadworks-blog/loadCategoryPosts', {
+        perPage: POSTS_PER_PAGE
+      })
     }
 
     await store.dispatch('aheadworks-blog/loadRecentPosts')
@@ -146,8 +153,13 @@ export default {
       categories: 'aheadworks-blog/getCategories',
       category: 'aheadworks-blog/getCurrentCategory',
       posts: 'aheadworks-blog/getCategoryPosts',
-      recentPosts: 'aheadworks-blog/getRecentPosts'
+      recentPosts: 'aheadworks-blog/getRecentPosts',
+      totalPosts: 'aheadworks-blog/getTotalPosts'
     }),
+
+    canLoadMore () {
+      return this.posts.length < this.totalPosts
+    },
 
     pageTitle () {
       const title = [this.$t('Blog')]
@@ -235,6 +247,10 @@ export default {
           sort: order
         }
       })
+    },
+    loadMorePosts () {
+      if (this.canLoadMore) return
+      this.$store.dispatch('aheadworks-blog/loadMoreCategoryPosts', this.currentCategory)
     }
   }
 }
