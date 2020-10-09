@@ -106,7 +106,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { mapGetters } from 'vuex'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const composeInitialPageState = async (store, route, force = false) => {
   try {
@@ -140,7 +140,7 @@ export default {
       return JSON.parse(this.post.blog_categories)
     },
     publishDate () {
-      return moment.unix(this.post.publish_date).format('MM/DD/YY h:mmA')
+      return dayjs.unix(this.post.publish_date).format('MM/DD/YY h:mmA')
     },
     pageTitle () {
       const title = [this.post.title, this.$t('Blog')]
@@ -158,8 +158,8 @@ export default {
         'image': [
           '${this.post.featured_image_file}'
         ],
-        'datePublished': '${moment.unix(this.post.publish_date).format('YYYY-MM-DD H:mm')}',
-        'dateModified': '${moment.unix(this.post.publish_date).format('YYYY-MM-DD H:mm')}',
+        'datePublished': '${dayjs.unix(this.post.publish_date).format('YYYY-MM-DD H:mm')}',
+        'dateModified': '${dayjs.unix(this.post.publish_date).format('YYYY-MM-DD H:mm')}',
         'author': {
           '@type': 'Person',
           'name': '${this.post.author_name}'
@@ -211,7 +211,7 @@ export default {
   },
   methods: {
     dateToReadable (date) {
-      return moment.unix(date).format('MM/DD/YY h:mmA')
+      return dayjs.unix(date).format('MM/DD/YY h:mmA')
     }
   }
 }

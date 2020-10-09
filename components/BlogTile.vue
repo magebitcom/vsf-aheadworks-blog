@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 export default {
   props: {
@@ -72,7 +72,7 @@ export default {
       return JSON.parse(this.post.blog_categories)
     },
     publishDate () {
-      return moment.unix(this.post.publish_date).format('MM/DD/YY h:mmA')
+      return dayjs.unix(this.post.publish_date).format('MM/DD/YY h:mmA')
     },
     imageObj () {
       return {
