@@ -102,6 +102,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { mapGetters } from 'vuex'
+import { getContext } from '../helpers'
 
 // Components
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
@@ -110,7 +111,7 @@ import BlogListing from '../components/BlogListing'
 
 const POSTS_PER_PAGE = 10
 
-const composeInitialPageState = async (store, route, forceLoad = false) => {
+const composeInitialPageState = async (store, route, context = null) => {
   try {
     await store.dispatch('aheadworks-blog/loadCategories', {
       size: 200
@@ -120,6 +121,12 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
 
     if (route.params.slug) {
       currentCategory = await store.getters['aheadworks-blog/getCurrentCategory']
+
+      if (!currentCategory && isServer) {
+        const ctx = await getContext(context)
+        ctx.server.response.redirect('/page-not-found', 302)
+      }
+
       await store.dispatch('aheadworks-blog/loadCategoryPosts', {
         category: currentCategory,
         perPage: POSTS_PER_PAGE
@@ -199,14 +206,14 @@ export default {
     }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    await composeInitialPageState(store, route)
+    await composeInitialPageState(store, route, context)
   },
   async beforeRouteEnter (to, from, next) {
     if (isServer) next() // SSR no need to invoke SW caching here
     else if (!from.name) { // SSR but client side invocation, we need to cache products and invoke requests from asyncData for offline support
       next(async vm => {
         vm.loading = true
-        await composeInitialPageState(vm.$store, to, true)
+        await composeInitialPageState(vm.$store, to)
         vm.loading = false
       })
     } else {

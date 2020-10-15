@@ -3,6 +3,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import { BlogCategory, BlogState, BlogCategorySearchOptions, BlogPost, BlogPostSearchOptions } from '../types'
 import { BlogCategoryService, BlogPostService } from '../data-resolver'
 import { BLOG_ADD_CATEGORY, BLOG_SET_SEARCH_POSTS_STATS, BLOG_SET_CATEGORY_POSTS, BLOG_SET_RECENT_POSTS, BLOG_ADD_CATEGORIES, BLOG_ADD_POST } from './mutation-types'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<BlogState, RootState> = {
   async loadCategories ({ commit }, categorySearchOptions: BlogCategorySearchOptions): Promise<BlogCategory[]> {
@@ -24,7 +25,11 @@ const actions: ActionTree<BlogState, RootState> = {
     const { items } = await BlogCategoryService.getBlogCategories(categorySearchOptions)
     const category: BlogCategory = items && items.length ? items[0] : null
 
-    commit(BLOG_ADD_CATEGORY, category)
+    if (category) {
+      commit(BLOG_ADD_CATEGORY, category)
+    } else {
+      Logger.warn('Blog category not found', 'aheadworks-blog')()
+    }
 
     return category
   },
@@ -40,7 +45,11 @@ const actions: ActionTree<BlogState, RootState> = {
     const { items } = await BlogPostService.getBlogPosts(postSearchOptions)
     const post: BlogPost = items && items.length ? items[0] : null
 
-    commit(BLOG_ADD_POST, post)
+    if (post) {
+      commit(BLOG_ADD_POST, post)
+    } else {
+      Logger.warn('Blog post not found', 'aheadworks-blog')()
+    }
 
     return post
   },

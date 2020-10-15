@@ -107,8 +107,9 @@ import config from 'config'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { mapGetters } from 'vuex'
 import dayjs from 'dayjs'
+import { getContext } from '../helpers'
 
-const composeInitialPageState = async (store, route, force = false) => {
+const composeInitialPageState = async (store, route, context = null) => {
   try {
     await store.dispatch('aheadworks-blog/loadCategories', {
       size: 200
@@ -116,11 +117,16 @@ const composeInitialPageState = async (store, route, force = false) => {
 
     const cached = store.getters['aheadworks-blog/getCurrentPost']
     if (!cached && route.params.slug) {
-      await store.dispatch('aheadworks-blog/loadPost', {
+      const post = await store.dispatch('aheadworks-blog/loadPost', {
         filters: {
           url_key: route.params.slug
         }
       })
+
+      if (!post && isServer) {
+        const ctx = await getContext(context)
+        ctx.server.response.redirect('/page-not-found', 302)
+      }
     }
 
     await store.dispatch('aheadworks-blog/loadRecentPosts')
@@ -176,14 +182,14 @@ export default {
     }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    await composeInitialPageState(store, route)
+    await composeInitialPageState(store, route, context)
   },
   async beforeRouteEnter (to, from, next) {
     if (isServer) next() // SSR no need to invoke SW caching here
     else if (!from.name) { // SSR but client side invocation, we need to cache products and invoke requests from asyncData for offline support
       next(async vm => {
         vm.loading = true
-        await composeInitialPageState(vm.$store, to, true)
+        await composeInitialPageState(vm.$store, to)
         vm.loading = false
       })
     } else {
